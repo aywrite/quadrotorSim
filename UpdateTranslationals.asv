@@ -1,0 +1,7 @@
+function [Position, Velocity, accelerations] = UpdateTranslationals(Position, Velocity, TimeStepSize);
+%Calculate Accelerations
+
+
+
+end
+

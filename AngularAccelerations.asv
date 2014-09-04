@@ -1,0 +1,31 @@
+function f=AngularAccelerations(Moments, Omega)
+%#codegen
+%Setup%
+global Ix;
+global Iy;
+global Iz;
+global ModelCd0;
+%global rho;
+%Variables%
+%Calculations%
+AngularAccelerations = [Moments(1)/Ix, Moments(2)/Iy, Moments(3)/Iz];
+%ADD DRAG MODEL HERE, SOLVE SIMILAR TO BLADE LIFT/DRAG
+    %Droll=0.5*rho*(-omega)*abs(omega)*CdRoll*
+    %Dpitch
+    %Dyaw=
+%THIS IS DUMMY DATA%
+AreaVertical = (0.3*0.3);
+AreaHorizontal = (0.3*0.01+0.1*0.1);
+Sx = abs(AreaVertical);
+Sy = abs(AreaVertical*sin(Elevation)+AreaHorizontal*cos(Elevation));
+Sz = abs(AreaVertical*cos(Bank)*cos(Elevation)+AreaHorizontal*sin(Bank)*sin(Elevation));
+vx = Omega(1);
+vy = Omega(2);
+vz = Omega(3);
+Dx = 0.5*rho*vx*abs(vx)*Sx*ModelCd0;
+Dy = 0.5*rho*vy*abs(vy)*Sy*ModelCd0;
+Dz = 0.5*rho*vz*abs(vz)*Sz*ModelCd0;
+Drag = [Dx, Dy, Dz];
+%END DUMMY DRAG
+f=AngularAccelerations;
+

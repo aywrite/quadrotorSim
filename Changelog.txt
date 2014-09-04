@@ -1,0 +1,69 @@
+---VBreak3----
+Animation is now real time
+Added primative PID control to altitude
+
+---VBreak2----
+
+
+
+
+---VBreak1----
+-change bladegap loss formula
+-added eletrical and induced power calculations to rpmRequired Function
+-Minor Formatting adjustment with the results of rpmRequired
+-Added place holder function PowerToSpeed, currently cannot obtain suficient infomation from motor companies to write this function in full.
+
+
+
+---V12----
+
+
+
+
+---V11---
+-Fixed Bug in K (Motor FOrces)
+	-detail
+-Changed rpmrequired? displays extra infor? passes more info to subfucntion?
+-Blade Gap ineffeciencies
+
+
+
+
+
+---V10---
+Summary of Changes
+-Created two new functions:
+	-radsRequired (for use in other code)
+	-rpmRequired (for use in design/user interaction)
+
+Details
+-Rads required takes a desired thrust to weight ratio and computes the required radial velocity in radians required, it also calculates the torque per motor needed in such a case.
+	-Should be called as [rads, torque] = radsRequired(desiredTWR, radsGuess)
+	-The input guess is not overly important, but will influence the computational time, if in doubt a value of 1000 should be used.
+	-An input of 0 as the guess will not be computed correcly and may produce an infinite loop
+	-will return results when the error in TWR (desiered vs achived) is < maxError (a percentage currently set at 2%, may be changed in code)
+	-the initial value of error is dummy so the the loop executes for the first time regardless of guess
+-rpmRequired takes a desired thrust to weight ratio and computes the required raidal velocity in rpm required, it prints the thrust to weight ratio requested, rpm required and torque required.
+	-should be called as rpmRequired(desiredTWR)
+	-this function works by calling radsRequired and performing basic conversions between units
+	-this function does not require a guess input, making it suitable for human use but not in iterative code
+	-results will be printed in a more user friendly form.
+-As radsRequired calls ThrustToWeight itteraivley, the import of aerofoil data was removed to higer level function, this means that ThrustToWeight now needs aerofoil data as an input in addition to other parameters.	
+
+
+
+---V9---
+-Fixed bug where plotmatrix was incorrectly named, causing matrix not to be pre-allocated, significantly reducing computation time
+-Changed End time to an input to main, from global variable in constantsAndSpecs
+	-Main should now be called as Main(EndTime, AoA)
+	-AoA is still a dummy, should be called as 0
+	-PositionAnimation is now a function not a script
+-Deleted redundant display of time elapsed in position animation function.
+-Fixed bug in Auto-scaling causing vectors not to draw at visible size.
+-Acceleration updates are no longer time averaged, but instantaneous
+	-This applies to angular and translational accelerations
+	-This may need to be revised in future, but the current time averaging was not implemented anyway
+-Changed Figures to be deleted on each run, preventing the build-up of graphs after multiple runs
+	-to disable this function, comment out the close line in the PositionAnimation Function.
+-Added Primitive angular damping/drag, this will need to be refined using CFD and existing literature
+-Removed multiple playbacks of flight path, this can be re-enabled by uncommenting the movie line at the end of PositionAnimation
