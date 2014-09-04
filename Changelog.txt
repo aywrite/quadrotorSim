@@ -1,3 +1,5 @@
+This is the old changelog that was used prior to scource control, depreicated 4/09/14
+
 ---VBreak3----
 Animation is now real time
 Added primative PID control to altitude
